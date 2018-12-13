@@ -22,7 +22,7 @@ const store = (function(){
   const minRating = 0;
   const adding = true;
   const editing = false;
-  const error = null;
+  const error = 'there is an error';
   
   return {
     items,
