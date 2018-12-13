@@ -106,7 +106,7 @@ const bookmarks = (function(){
           <input type="number" name="rating" id="rating" placeholder="${placeholders.rating}">
         </fieldset>
         <fieldset class="bookmark__controls">
-          <button type="reset">Cancel</button>
+          <button type="reset" class="js-bookmark-form-cancel">Cancel</button>
           <button type="submit">${store.editing ? 'Apply Changes' : 'Add Bookmark'}</button>
         </fieldset>
       </form>
@@ -151,8 +151,16 @@ const bookmarks = (function(){
     });
   }
 
+  function handleEditBookmarkButtonClick() {
+    $('.bookmark-app').on('click', '.bookmark__edit', () => {
+      store.toggleEditing();
+      render();
+    });
+  }
+
   function bindEventListeners() {
     handleAddBookmarkButtonClick();
+    handleEditBookmarkButtonClick();
   }
 
   return {
