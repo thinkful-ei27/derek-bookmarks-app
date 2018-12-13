@@ -1,8 +1,9 @@
 'use strict';
 
-/* global $, bookmarks, store, api */
+/* global $, bookmarks, store, api, initialize */
 
 $(document).ready(function () {
+  initialize.extendJquery();
   bookmarks.bindEventListeners();
   bookmarks.render();
   api.getItems(items => {

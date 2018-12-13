@@ -149,7 +149,8 @@ const bookmarks = (function(){
   function handleFormSubmit() {
     $('.bookmark-app').on('submit', '.bookmark-form', () => {
       event.preventDefault();
-      console.log('The form was submitted');
+      const formData = $(event.target).serializeJson();
+      console.log(formData);
     });
   }
 
