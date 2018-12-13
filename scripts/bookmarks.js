@@ -144,7 +144,12 @@ const bookmarks = (function(){
     $('.bookmark-app').html(generateBookmarksString());
   }
 
+  function bindEventListeners() {
+    console.log('This will bind all event listeners.');
+  }
+
   return {
-    render
+    render,
+    bindEventListeners
   };
 }());

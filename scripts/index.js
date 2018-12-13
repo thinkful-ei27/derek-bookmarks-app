@@ -3,7 +3,7 @@
 /* global $, bookmarks, store, api */
 
 $(document).ready(function () {
-  store;
   api;
+  bookmarks.bindEventListeners();
   bookmarks.render();
 });

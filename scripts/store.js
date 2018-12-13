@@ -26,15 +26,20 @@ const store = (function(){
     }
   ];
   const minRating = 0;
-  const adding = false;
+  let adding = false;
   const editing = null;
   const error = null;
+
+  function toggleAdding() {
+    adding = !adding;
+  }
   
   return {
     items,
     minRating,
     adding,
     editing,
-    error
+    error,
+    toggleAdding
   };
 }());
