@@ -23,51 +23,7 @@ const bookmarks = (function(){
   const emptyMessage = `
       <p class="empty-list-message">You do not currently have any bookmarks. Add one now by clicking the "Add Bookmark" button.</p>
   `;
-  const withBookmarks = `
-      <ul class="bookmarks__list">
-        <li class="bookmark">
-          <div class="bookmark__title">Bookmark Title</div>
-          <div>Rating: 1</div>
-          <section class="bookmark__details" hidden>
-            <a href="http://example.com">Visit site</a>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc maximus, nulla ut commodo sagittis, sapien dui mattis dui, non pulvinar lorem felis nec erat. Aliquam egestas, velit at condimentum placerat, sem sapien laoreet mauris, dictum porttitor lacus est nec enim.</p>
-            <div class="bookmark__buttons">
-              <button class="bookmark__edit">Edit Bookmark</button>
-              <button class="bookmark__delete">Delete Bookmark</button>
-            </div>
-          </section>
-          <p class="bookmark__expand">click to expand</p>
-        </li>
-        <li class="bookmark">
-          <div class="bookmark__title">Bookmark Title</div>
-          <div>Rating: 1</div>
-          <section class="bookmark__details" hidden>
-            <a href="http://example.com">Visit site</a>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc maximus, nulla ut commodo sagittis, sapien dui mattis dui, non pulvinar lorem felis nec erat. Aliquam egestas, velit at condimentum placerat, sem sapien laoreet mauris, dictum porttitor lacus est nec enim.</p>
-            <div class="bookmark__buttons">
-              <button class="bookmark__edit">Edit Bookmark</button>
-              <button class="bookmark__delete">Delete Bookmark</button>
-            </div>
-          </section>
-          <p class="bookmark__expand">click to expand</p>
-        </li>
-        <li class="bookmark">
-          <div class="bookmark__title">Bookmark Title</div>
-          <div>Rating: 1</div>
-          <section class="bookmark__details" hidden>
-            <a href="http://example.com">Visit site</a>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc maximus, nulla ut commodo sagittis, sapien dui mattis dui, non pulvinar lorem felis nec erat. Aliquam egestas, velit at condimentum placerat, sem sapien laoreet mauris, dictum porttitor lacus est nec enim.</p>
-            <div class="bookmark__buttons">
-              <button class="bookmark__edit">Edit Bookmark</button>
-              <button class="bookmark__delete">Delete Bookmark</button>
-            </div>
-          </section>
-          <p class="bookmark__expand">click to expand</p>
-        </li>
-      </ul>
-  `;
   const expandedBookmark = `
-      <ul class="bookmarks__list">
         <li class="bookmark">
           <div class="bookmark__title">Bookmark Title</div>
           <div>Rating: 1</div>
@@ -107,10 +63,8 @@ const bookmarks = (function(){
           </section>
           <p class="bookmark__expand">click to expand</p>
         </li>
-      </ul>
   `;
   const minRatingFilter = `
-      <ul class="bookmarks__list">
         <li class="bookmark">
           <div class="bookmark__title">Bookmark Title</div>
           <div>Rating: 5</div>
@@ -150,7 +104,6 @@ const bookmarks = (function(){
           </section>
           <p class="bookmark__expand">click to expand</p>
         </li>
-      </ul>
   `;
   const addBookmark = `
     <h2>Add Bookmark</h2>
@@ -216,6 +169,65 @@ const bookmarks = (function(){
     </form>
   `;
 
+  function generateListElement(item) {
+    const listElement = `
+      <li class="bookmark">
+        <div class="bookmark__title">Bookmark Title</div>
+        <div>Rating: 1</div>
+        <section class="bookmark__details" hidden>
+          <a href="http://example.com">Visit site</a>
+          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc maximus, nulla ut commodo sagittis, sapien dui mattis dui, non pulvinar lorem felis nec erat. Aliquam egestas, velit at condimentum placerat, sem sapien laoreet mauris, dictum porttitor lacus est nec enim.</p>
+          <div class="bookmark__buttons">
+            <button class="bookmark__edit">Edit Bookmark</button>
+            <button class="bookmark__delete">Delete Bookmark</button>
+          </div>
+        </section>
+        <p class="bookmark__expand">click to expand</p>
+      </li>
+    `;
+    const expandedListElement = `
+      <li class="bookmark">
+        <div class="bookmark__title">Bookmark Title</div>
+        <div>Rating: 1</div>
+        <section class="bookmark__details">
+          <a href="http://example.com">Visit site</a>
+          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc maximus, nulla ut commodo sagittis, sapien dui mattis dui, non pulvinar lorem felis nec erat. Aliquam egestas, velit at condimentum placerat, sem sapien laoreet mauris, dictum porttitor lacus est nec enim.</p>
+          <div class="bookmark__buttons">
+            <button class="bookmark__edit">Edit Bookmark</button>
+            <button class="bookmark__delete">Delete Bookmark</button>
+          </div>
+        </section>
+        <p class="bookmark__expand">click to expand</p>
+      </li>
+    `;
+    
+    return item.expanded === true ? expandedListElement : listElement ;
+
+  }
+
+  function generateBookmarksList(items){
+    let innerElements = '';
+    if (store.minRating > 0) {
+      innerElements = minRatingFilter;
+    } else {
+      innerElements = items.map(item => generateListElement(item)).join('');
+    }
+    let bookmarksList = `
+      <ul class="bookmarks__list">
+        ${innerElements}
+      </ul>
+    `;
+    return innerElements;
+  }
+
+  function generateBookmarksSection(items) {
+    let bookmarksSection = `
+      <section class="bookmarks">
+        ${items.length > 0 ? generateBookmarksList(items) : emptyMessage}
+      </section>
+    `;
+    return bookmarksSection;
+  }
   
   function generateBookmarksString() {
     const items = store.items;
@@ -229,25 +241,7 @@ const bookmarks = (function(){
     } else if (store.editing === true) {
       string += editBookmark;
     } else {
-      string += toolbar;
-      let innerElements = '';
-      if (items.length > 0) {
-        if(items[0].expanded === true) {
-          innerElements = expandedBookmark;
-        } else if (store.minRating > 0) {
-          innerElements = minRatingFilter;
-        } else {
-          innerElements = withBookmarks;
-        }
-      } else {
-        innerElements = emptyMessage;
-      }
-      let bookmarksSection = `
-      <section class="bookmarks">
-        ${innerElements}
-      </section>
-      `;
-      string += bookmarksSection;
+      string += toolbar + generateBookmarksSection(items);
     }
     return string;
   }

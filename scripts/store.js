@@ -3,10 +3,18 @@
 // eslint-disable-next-line no-unused-vars
 const store = (function(){
   const items = [
-    // {
-    //   title: 'Bookmark Title',
-    //   expanded: false 
-    // }
+    {
+      title: 'Bookmark Title',
+      expanded: false 
+    },
+    {
+      title: 'Bookmark Title',
+      expanded: true
+    },
+    {
+      title: 'Bookmark Title',
+      expanded: false
+    }
   ];
   const minRating = 0;
   const adding = false;
