@@ -1,6 +1,6 @@
 'use strict';
 
-/* global $, store */
+/* global $, store, api */
 
 // eslint-disable-next-line no-unused-vars
 const bookmarks = (function(){
@@ -8,10 +8,10 @@ const bookmarks = (function(){
     const listElement = `
       <li class="bookmark js-bookmark" data-item-id="${item.id}">
         <div class="bookmark__title">${item.title}</div>
-        <div>Rating: ${item.rating}</div>
+        <div>Rating: ${item.rating ? item.rating : 'No rating'}</div>
         <section class="bookmark__details" ${!(item.expanded) ? 'hidden' : ''}>
-          <a href="http://example.com">Visit site</a>
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc maximus, nulla ut commodo sagittis, sapien dui mattis dui, non pulvinar lorem felis nec erat. Aliquam egestas, velit at condimentum placerat, sem sapien laoreet mauris, dictum porttitor lacus est nec enim.</p>
+          <a href="${item.url}">Visit ${item.url}</a>
+          <p>${item.desc ? item.desc : 'There\'s no description for this item yet.'}</p>
           <div class="bookmark__buttons">
             <button class="bookmark__edit">Edit Bookmark</button>
             <button class="bookmark__delete">Delete Bookmark</button>
@@ -84,7 +84,7 @@ const bookmarks = (function(){
           <label for="description">Description</label>
           <textarea name="desc" id="description" cols="30" rows="10">${placeholders.desc}</textarea>
           <label for="rating">Rating</label>
-          <input type="number" name="rating" id="rating" placeholder="${placeholders.rating}">
+          <input type="number" name="rating" id="rating" min="1" max="5" placeholder="${placeholders.rating}">
         </fieldset>
         <fieldset class="bookmark__controls">
           <button type="reset" class="js-bookmark-form-cancel">Cancel</button>
@@ -150,7 +150,11 @@ const bookmarks = (function(){
     $('.bookmark-app').on('submit', '.bookmark-form', () => {
       event.preventDefault();
       const formData = $(event.target).serializeJson();
-      console.log(formData);
+      api.createItem(formData, (item) => {
+        store.addItem(item);
+        store.clearAddingAndEditing();
+        render();
+      });
     });
   }
 
