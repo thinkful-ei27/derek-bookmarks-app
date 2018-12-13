@@ -20,7 +20,7 @@ const store = (function(){
     }
   ];
   const minRating = 0;
-  const adding = false;
+  const adding = true;
   const editing = false;
   const error = null;
   

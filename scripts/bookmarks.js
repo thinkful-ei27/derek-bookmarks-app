@@ -122,20 +122,22 @@ const bookmarks = (function(){
   }
 
   function filterByRating(items) {
-    return items.filter(item => item.rating >= store.minRating);
+    let newItems = [...items];
+    return newItems.filter(item => item.rating >= store.minRating);
   }
 
   function generateBookmarksList(items){
-    items = filterByRating(items);
+    const filteredItems = filterByRating(items);
     let bookmarksList = `
       <ul class="bookmarks__list">
-        ${items.map(item => generateListElement(item)).join('')}
+        ${filteredItems.map(item => generateListElement(item)).join('')}
       </ul>
     `;
     return bookmarksList;
   }
 
-  function generateBookmarksSection(items) {
+  function generateBookmarksSection() {
+    const items = store.items;
     let bookmarksSection = `
       <section class="bookmarks">
         ${items.length > 0 ? generateBookmarksList(items) : emptyMessage}
@@ -143,9 +145,8 @@ const bookmarks = (function(){
     `;
     return bookmarksSection;
   }
-  
-  function generateBookmarksString() {
-    const items = store.items;
+
+  function generateBookmarksForm() {
     let string = '';
     if (store.adding === true) {
       if (store.error === null) {
@@ -155,8 +156,16 @@ const bookmarks = (function(){
       }
     } else if (store.editing === true) {
       string += editBookmark;
+    }
+    return string;
+  }
+  
+  function generateBookmarksString() {
+    let string = '';
+    if (store.adding === true || store.editing === true) {
+      string += generateBookmarksForm();
     } else {
-      string += toolbar + generateBookmarksSection(items);
+      string += toolbar + generateBookmarksSection();
     }
     return string;
   }
