@@ -31,7 +31,7 @@ const store = (function(){
   const error = null;
 
   function toggleAdding() {
-    adding = !adding;
+    this.adding = !this.adding;
   }
   
   return {

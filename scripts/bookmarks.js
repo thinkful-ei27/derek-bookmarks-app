@@ -144,8 +144,15 @@ const bookmarks = (function(){
     $('.bookmark-app').html(generateBookmarksString());
   }
 
+  function handleAddBookmarkButtonClick() {
+    $('.bookmark-app').on('click', '.add-bookmark', () => {
+      store.toggleAdding();
+      render();
+    });
+  }
+
   function bindEventListeners() {
-    console.log('This will bind all event listeners.');
+    handleAddBookmarkButtonClick();
   }
 
   return {
