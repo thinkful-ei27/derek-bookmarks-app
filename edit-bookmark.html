@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Derek Houck Bookmark Project</title>
+  <link rel="stylesheet" href="styles/normalize.css">
+  <link rel="stylesheet" href="styles/index.css">
+</head>
+<body>
+  <header>
+    <h1>Bookmark Project</h1>
+  </header>
+  <main class="bookmark-app">
+    <h2>Edit Bookmark</h2>
+    <p>Required fields marked with a *</p>
+    <p class="error-message" hidden>ERROR: Error message</p>
+    <form action="" class="edit-bookmark-form">
+      <fieldset class="edit-bookmark__fields">
+        <label for="title">Title<span class="required">*</span></label>
+        <input type="text" name="title" id="title" required placeholder="Existing Bookmark">
+        <label for="url">URL<span class="required">*</span></label>
+        <input type="url" name="url" id="url" required placeholder="http://example.com">
+        <label for="description">Description</label>
+        <textarea name="desc" id="description" cols="30" rows="10">Lorem ipsum text</textarea>
+        <label for="rating">Rating</label>
+        <input type="number" name="rating" id="rating" placeholder="2">
+      </fieldset>
+      <fieldset class="edit-bookmark__controls">
+        <button type="reset">Cancel</button>
+        <button type="submit">Apply Changes</button>
+      </fieldset>
+    </form>
+  </main>
+  <script
+  src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+  integrity="sha256-3edrmyuQ0w65f8gfBsqowzjJe2iM6n0nKciPUp8y+7E="
+  crossorigin="anonymous"></script>
+  <script src="scripts/store.js"></script>
+  <script src="scripts/api.js"></script>
+  <script src="scripts/index.js"></script>
+</body>
+</html>

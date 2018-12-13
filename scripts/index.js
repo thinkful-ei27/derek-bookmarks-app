@@ -2,4 +2,6 @@
 
 /* global $ */
 
-console.log($('h1'));
+$(document).ready(function () {
+  console.log('Page loaded');
+});
