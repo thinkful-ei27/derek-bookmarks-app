@@ -242,6 +242,27 @@ const bookmarks = (function(){
       </fieldset>
     </form>
   `;
+  const editBookmark = `
+    <h2>Edit Bookmark</h2>
+    <p>Required fields marked with a *</p>
+    <p class="error-message" hidden>ERROR: Error message</p>
+    <form action="" class="edit-bookmark-form">
+      <fieldset class="edit-bookmark__fields">
+        <label for="title">Title<span class="required">*</span></label>
+        <input type="text" name="title" id="title" required placeholder="Existing Bookmark">
+        <label for="url">URL<span class="required">*</span></label>
+        <input type="url" name="url" id="url" required placeholder="http://example.com">
+        <label for="description">Description</label>
+        <textarea name="desc" id="description" cols="30" rows="10">Lorem ipsum text</textarea>
+        <label for="rating">Rating</label>
+        <input type="number" name="rating" id="rating" placeholder="2">
+      </fieldset>
+      <fieldset class="edit-bookmark__controls">
+        <button type="reset">Cancel</button>
+        <button type="submit">Apply Changes</button>
+      </fieldset>
+    </form>
+  `;
 
   
   function generateBookmarksString(string) {
@@ -249,7 +270,7 @@ const bookmarks = (function(){
   }
 
   function render() {
-    $('.bookmark-app').html(generateBookmarksString(addBookmarkError));
+    $('.bookmark-app').html(generateBookmarksString(editBookmark));
   }
 
   return {
