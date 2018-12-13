@@ -71,59 +71,46 @@ const bookmarks = (function(){
     if (!(store.error)) {
       hiddenAttr = 'hidden';
     }
-    console.log('This will add the hidden attribute');
     return hiddenAttr;
   }
 
+  function addPlaceholders() {
+    let placeholders = {
+      title: '',
+      url: '',
+      desc: '',
+      rating: ''
+    };
+    if (store.editing) {
+      const item = store.items[store.editing];
+      Object.assign(placeholders, item);
+    }
+    return placeholders;
+  }
+
   function generateBookmarksForm() {
-    const addBookmark = `
-      <h2>Add Bookmark</h2>
+    const placeholders = addPlaceholders();
+    let string = `
+      <h2>${store.editing ? 'Edit' : 'Add'} Bookmark</h2>
       <p>Required fields marked with a *</p>
       <p class="error-message" ${addHiddenAttr()}>ERROR: Error message</p>
-      <form action="" class="add-bookmark-form">
-        <fieldset class="add-bookmark__fields">
+      <form action="" class="bookmark-form">
+        <fieldset class="bookmark__fields">
           <label for="title">Title<span class="required">*</span></label>
-          <input type="text" name="title" id="title" required>
+          <input type="text" name="title" id="title" required placeholder="${placeholders.title}">
           <label for="url">URL<span class="required">*</span></label>
-          <input type="url" name="url" id="url" required>
+          <input type="url" name="url" id="url" required placeholder="${placeholders.url}">
           <label for="description">Description</label>
-          <textarea name="desc" id="description" cols="30" rows="10"></textarea>
+          <textarea name="desc" id="description" cols="30" rows="10">${placeholders.desc}</textarea>
           <label for="rating">Rating</label>
-          <input type="number" name="rating" id="rating">
+          <input type="number" name="rating" id="rating" placeholder="${placeholders.rating}">
         </fieldset>
-        <fieldset class="add-bookmark__controls">
+        <fieldset class="bookmark__controls">
           <button type="reset">Cancel</button>
-          <button type="submit">Add Bookmark</button>
+          <button type="submit">${store.editing ? 'Apply Changes' : 'Add Bookmark'}</button>
         </fieldset>
       </form>
     `;
-    const editBookmark = `
-      <h2>Edit Bookmark</h2>
-      <p>Required fields marked with a *</p>
-      <p class="error-message" hidden>ERROR: Error message</p>
-      <form action="" class="edit-bookmark-form">
-        <fieldset class="edit-bookmark__fields">
-          <label for="title">Title<span class="required">*</span></label>
-          <input type="text" name="title" id="title" required placeholder="Existing Bookmark">
-          <label for="url">URL<span class="required">*</span></label>
-          <input type="url" name="url" id="url" required placeholder="http://example.com">
-          <label for="description">Description</label>
-          <textarea name="desc" id="description" cols="30" rows="10">Lorem ipsum text</textarea>
-          <label for="rating">Rating</label>
-          <input type="number" name="rating" id="rating" placeholder="2">
-        </fieldset>
-        <fieldset class="edit-bookmark__controls">
-          <button type="reset">Cancel</button>
-          <button type="submit">Apply Changes</button>
-        </fieldset>
-      </form>
-    `;
-    let string = '';
-    if (store.adding === true) {
-      string += addBookmark;
-    } else if (store.editing === true) {
-      string += editBookmark;
-    }
     return string;
   }
   
@@ -145,7 +132,7 @@ const bookmarks = (function(){
       </section>
     `;
     let string = '';
-    if (store.adding === true || store.editing === true) {
+    if (store.adding || store.editing) {
       string += generateBookmarksForm();
     } else {
       string += toolbar + generateBookmarksSection();
