@@ -1,9 +1,10 @@
 'use strict';
 
+/* global $ */
+
 // eslint-disable-next-line no-unused-vars
 const api = (function(){
-  const BASE_URL = 'https://thinkful-list-api.herokuapp.com/derek/';
-  console.log(BASE_URL);
+  const BASE_URL = 'https://thinkful-list-api.herokuapp.com/derek';
   const sampleData = [
     {
       'id': 'cjpn4a474001n0kwnkv4ek4oy',
@@ -27,5 +28,12 @@ const api = (function(){
       'rating': null
     }
   ];
-  return sampleData;
+
+  function getItems(callback) {
+    $.getJSON(`${BASE_URL}/bookmarks`, callback);
+  }
+
+  return {
+    getItems
+  };
 }());

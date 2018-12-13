@@ -6,10 +6,10 @@
 const bookmarks = (function(){
   function generateListElement(item) {
     const listElement = `
-      <li class="bookmark">
+      <li class="bookmark js-bookmark" data-item-id="${item.id}">
         <div class="bookmark__title">${item.title}</div>
         <div>Rating: ${item.rating}</div>
-        <section class="bookmark__details" hidden>
+        <section class="bookmark__details" ${!(item.expanded) ? 'hidden' : ''}>
           <a href="http://example.com">Visit site</a>
           <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc maximus, nulla ut commodo sagittis, sapien dui mattis dui, non pulvinar lorem felis nec erat. Aliquam egestas, velit at condimentum placerat, sem sapien laoreet mauris, dictum porttitor lacus est nec enim.</p>
           <div class="bookmark__buttons">
@@ -17,27 +17,16 @@ const bookmarks = (function(){
             <button class="bookmark__delete">Delete Bookmark</button>
           </div>
         </section>
-        <p class="bookmark__expand">click to expand</p>
+        <p class="bookmark__expand">click to ${item.expanded ? 'collapse' : 'expand'}</p>
       </li>
     `;
-    const expandedListElement = `
-      <li class="bookmark">
-        <div class="bookmark__title">${item.title}</div>
-        <div>Rating: ${item.rating}</div>
-        <section class="bookmark__details">
-          <a href="http://example.com">Visit site</a>
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc maximus, nulla ut commodo sagittis, sapien dui mattis dui, non pulvinar lorem felis nec erat. Aliquam egestas, velit at condimentum placerat, sem sapien laoreet mauris, dictum porttitor lacus est nec enim.</p>
-          <div class="bookmark__buttons">
-            <button class="bookmark__edit">Edit Bookmark</button>
-            <button class="bookmark__delete">Delete Bookmark</button>
-          </div>
-        </section>
-        <p class="bookmark__expand">click to expand</p>
-      </li>
-    `;
-    
-    return item.expanded === true ? expandedListElement : listElement ;
+    return listElement ;
+  }
 
+  function getItemIdFromElement(item) {
+    return $(item)
+      .closest('.js-bookmark')
+      .data('item-id');
   }
 
   function filterByRating(items) {
@@ -66,14 +55,6 @@ const bookmarks = (function(){
     return bookmarksSection;
   }
 
-  function addHiddenAttr() {
-    let hiddenAttr = '';
-    if (!(store.error)) {
-      hiddenAttr = 'hidden';
-    }
-    return hiddenAttr;
-  }
-
   function addPlaceholders() {
     let placeholders = {
       title: '',
@@ -93,7 +74,7 @@ const bookmarks = (function(){
     let string = `
       <h2>${store.editing ? 'Edit' : 'Add'} Bookmark</h2>
       <p>Required fields marked with a *</p>
-      <p class="error-message" ${addHiddenAttr()}>ERROR: Error message</p>
+      <p class="error-message" ${!(store.error) ? 'hidden' : ''}>ERROR: Error message</p>
       <form action="" class="bookmark-form">
         <fieldset class="bookmark__fields">
           <label for="title">Title<span class="required">*</span></label>
@@ -158,9 +139,35 @@ const bookmarks = (function(){
     });
   }
 
+  function handleCancelButtonClick() {
+    $('.bookmark-app').on('click', '.js-bookmark-form-cancel', () => {
+      store.clearAddingAndEditing();
+      render();
+    });
+  }
+
+  function handleFormSubmit() {
+    $('.bookmark-app').on('submit', '.bookmark-form', () => {
+      event.preventDefault();
+      console.log('The form was submitted');
+    });
+  }
+
+  function handledClickToExpand() {
+    $('.bookmark-app').on('click', '.bookmark__expand', () => {
+      const id = getItemIdFromElement(event.target);
+      const item = store.findById(id);
+      store.toggleExpanding(item);
+      render();
+    });
+  }
+
   function bindEventListeners() {
     handleAddBookmarkButtonClick();
     handleEditBookmarkButtonClick();
+    handleCancelButtonClick();
+    handleFormSubmit();
+    handledClickToExpand();
   }
 
   return {
