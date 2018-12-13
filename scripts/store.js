@@ -1,3 +1,6 @@
 'use strict';
 
-console.log('store.js successfully linked');
+// eslint-disable-next-line no-unused-vars
+const store = (function(){
+  console.log('store module loaded');
+}());

@@ -1,3 +1,5 @@
 'use strict';
 
-console.log('bookmarks.js loaded');
+const bookmarks = (function(){
+  console.log('Bookmarks module loaded');
+}());

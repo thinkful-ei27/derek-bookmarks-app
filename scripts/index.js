@@ -1,7 +1,9 @@
 'use strict';
 
-/* global $ */
+/* global $, bookmarks, store, api */
 
 $(document).ready(function () {
-  console.log('Page loaded');
+  store;
+  api;
+  bookmarks;
 });
