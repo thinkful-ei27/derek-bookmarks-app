@@ -20,13 +20,10 @@ const bookmarks = (function(){
       <button class="add-bookmark">Add Bookmark</button>
     </section>
   `;
-  const initialState = `
-    <section class="bookmarks">
+  const emptyMessage = `
       <p class="empty-list-message">You do not currently have any bookmarks. Add one now by clicking the "Add Bookmark" button.</p>
-    </section>
   `;
   const withBookmarks = `
-    <section class="bookmarks">
       <ul class="bookmarks__list">
         <li class="bookmark">
           <div class="bookmark__title">Bookmark Title</div>
@@ -68,10 +65,8 @@ const bookmarks = (function(){
           <p class="bookmark__expand">click to expand</p>
         </li>
       </ul>
-    </section>
   `;
   const expandedBookmark = `
-    <section class="bookmarks">
       <ul class="bookmarks__list">
         <li class="bookmark">
           <div class="bookmark__title">Bookmark Title</div>
@@ -113,10 +108,8 @@ const bookmarks = (function(){
           <p class="bookmark__expand">click to expand</p>
         </li>
       </ul>
-    </section>
   `;
   const minRatingFilter = `
-    <section class="bookmarks">
       <ul class="bookmarks__list">
         <li class="bookmark">
           <div class="bookmark__title">Bookmark Title</div>
@@ -158,7 +151,6 @@ const bookmarks = (function(){
           <p class="bookmark__expand">click to expand</p>
         </li>
       </ul>
-    </section>
   `;
   const addBookmark = `
     <h2>Add Bookmark</h2>
@@ -225,30 +217,37 @@ const bookmarks = (function(){
   `;
 
   
-  function generateBookmarksString(string) {
-    console.log(store.editing);
+  function generateBookmarksString() {
     const items = store.items;
+    let string = '';
     if (store.adding === true) {
       if (store.error === null) {
-        string = addBookmark;
+        string += addBookmark;
       } else {
-        string = addBookmarkError;
+        string += addBookmarkError;
       }
     } else if (store.editing === true) {
-      string = editBookmark;
+      string += editBookmark;
     } else {
-      string = toolbar;
+      string += toolbar;
+      let innerElements = '';
       if (items.length > 0) {
         if(items[0].expanded === true) {
-          string += expandedBookmark;
+          innerElements = expandedBookmark;
         } else if (store.minRating > 0) {
-          string += minRatingFilter;
+          innerElements = minRatingFilter;
         } else {
-          string += withBookmarks;
+          innerElements = withBookmarks;
         }
       } else {
-        string += initialState;
+        innerElements = emptyMessage;
       }
+      let bookmarksSection = `
+      <section class="bookmarks">
+        ${innerElements}
+      </section>
+      `;
+      string += bookmarksSection;
     }
     return string;
   }
