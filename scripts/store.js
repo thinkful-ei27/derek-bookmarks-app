@@ -4,15 +4,18 @@
 const store = (function(){
   const items = [
     {
-      title: 'Bookmark Title',
+      title: 'Highly Rated Bookmark',
+      rating: 5,
       expanded: false 
     },
     {
-      title: 'Bookmark Title',
+      title: 'Lowly Rated Bookmark',
+      rating: 2,
       expanded: true
     },
     {
-      title: 'Bookmark Title',
+      title: 'Bookmark without rating',
+      rating: 0,
       expanded: false
     }
   ];
