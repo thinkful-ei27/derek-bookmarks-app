@@ -4,7 +4,7 @@
 
 // eslint-disable-next-line no-unused-vars
 const bookmarks = (function(){
-  const initialState = `
+  const toolbar = `
     <section class="toolbar">
       <div class="min-rating">
         <label for="minRating">Minimum Rating:</label>
@@ -19,25 +19,13 @@ const bookmarks = (function(){
       </div>
       <button class="add-bookmark">Add Bookmark</button>
     </section>
+  `;
+  const initialState = `
     <section class="bookmarks">
       <p class="empty-list-message">You do not currently have any bookmarks. Add one now by clicking the "Add Bookmark" button.</p>
     </section>
   `;
   const withBookmarks = `
-    <section class="toolbar">
-      <div class="min-rating">
-        <label for="minRating">Minimum Rating:</label>
-        <select name="minRating" id="minRating">
-          <option value="0">No minimum</option>
-          <option value="1">1 star</option>
-          <option value="2">2 stars</option>
-          <option value="3">3 stars</option>
-          <option value="4">4 stars</option>
-          <option value="5">5 stars</option>
-        </select>
-      </div>
-      <button class="add-bookmark">Add Bookmark</button>
-    </section>
     <section class="bookmarks">
       <ul class="bookmarks__list">
         <li class="bookmark">
@@ -83,20 +71,6 @@ const bookmarks = (function(){
     </section>
   `;
   const expandedBookmark = `
-    <section class="toolbar">
-      <div class="min-rating">
-        <label for="minRating">Minimum Rating:</label>
-        <select name="minRating" id="minRating">
-          <option value="0">No minimum</option>
-          <option value="1">1 star</option>
-          <option value="2">2 stars</option>
-          <option value="3">3 stars</option>
-          <option value="4">4 stars</option>
-          <option value="5">5 stars</option>
-        </select>
-      </div>
-      <button class="add-bookmark">Add Bookmark</button>
-    </section>
     <section class="bookmarks">
       <ul class="bookmarks__list">
         <li class="bookmark">
@@ -142,20 +116,6 @@ const bookmarks = (function(){
     </section>
   `;
   const minRatingFilter = `
-    <section class="toolbar">
-      <div class="min-rating">
-        <label for="minRating">Minimum Rating:</label>
-        <select name="minRating" id="minRating">
-          <option value="0">No minimum</option>
-          <option value="1">1 star</option>
-          <option value="2">2 stars</option>
-          <option value="3" selected>3 stars</option>
-          <option value="4">4 stars</option>
-          <option value="5">5 stars</option>
-        </select>
-      </div>
-      <button class="add-bookmark">Add Bookmark</button>
-    </section>
     <section class="bookmarks">
       <ul class="bookmarks__list">
         <li class="bookmark">
@@ -277,16 +237,17 @@ const bookmarks = (function(){
     } else if (store.editing === true) {
       string = editBookmark;
     } else {
+      string = toolbar;
       if (items.length > 0) {
         if(items[0].expanded === true) {
-          string = expandedBookmark;
+          string += expandedBookmark;
         } else if (store.minRating > 0) {
-          string = minRatingFilter;
+          string += minRatingFilter;
         } else {
-          string = withBookmarks;
+          string += withBookmarks;
         }
       } else {
-        string = initialState;
+        string += initialState;
       }
     }
     return string;

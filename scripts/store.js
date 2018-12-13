@@ -8,10 +8,10 @@ const store = (function(){
       expanded: false 
     }
   ];
-  const minRating = 3;
+  const minRating = 0;
   const adding = false;
   const editing = true;
-  const error = 'Test error';
+  const error = null;
   
   return {
     items,
