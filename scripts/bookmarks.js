@@ -1,6 +1,6 @@
 'use strict';
 
-/* global $ */
+/* global $, store */
 
 // eslint-disable-next-line no-unused-vars
 const bookmarks = (function(){
@@ -266,11 +266,34 @@ const bookmarks = (function(){
 
   
   function generateBookmarksString(string) {
+    console.log(store.editing);
+    const items = store.items;
+    if (store.adding === true) {
+      if (store.error === null) {
+        string = addBookmark;
+      } else {
+        string = addBookmarkError;
+      }
+    } else if (store.editing === true) {
+      string = editBookmark;
+    } else {
+      if (items.length > 0) {
+        if(items[0].expanded === true) {
+          string = expandedBookmark;
+        } else if (store.minRating > 0) {
+          string = minRatingFilter;
+        } else {
+          string = withBookmarks;
+        }
+      } else {
+        string = initialState;
+      }
+    }
     return string;
   }
 
   function render() {
-    $('.bookmark-app').html(generateBookmarksString(editBookmark));
+    $('.bookmark-app').html(generateBookmarksString());
   }
 
   return {

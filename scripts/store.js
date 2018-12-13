@@ -2,5 +2,22 @@
 
 // eslint-disable-next-line no-unused-vars
 const store = (function(){
-  console.log('store module loaded');
+  const items = [
+    {
+      title: 'Bookmark Title',
+      expanded: false 
+    }
+  ];
+  const minRating = 3;
+  const adding = false;
+  const editing = true;
+  const error = 'Test error';
+  
+  return {
+    items,
+    minRating,
+    adding,
+    editing,
+    error
+  };
 }());
