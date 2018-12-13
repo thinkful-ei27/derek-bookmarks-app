@@ -5,5 +5,5 @@
 $(document).ready(function () {
   store;
   api;
-  bookmarks;
+  bookmarks.render();
 });
