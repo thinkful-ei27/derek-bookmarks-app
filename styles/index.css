@@ -36,6 +36,27 @@ h1 {
   padding: 0;
 }
 .bookmark {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  grid-template-rows: auto;
+  grid-template-areas: 
+    "title rating"
+    "details details"
+    "collapse collapse";
+}
+.bookmark__title {
+  grid-area: title;
+}
+.bookmark__rating {
+  grid-area: rating;
+}
+.bookmark__details {
+  grid-area: details;
+}
+.bookmark__expand {
+  grid-area: collapse;
+}
+.bookmark {
   border: 1px solid rgb(51, 103, 214);
   border-radius: 0.5em;
   overflow: hidden;
@@ -45,6 +66,17 @@ h1 {
 .bookmark__title {
   font-weight: bold;
   margin-bottom: 1em;
+}
+.bookmark__rating svg {
+  display: inline-block;
+  fill: white;
+  height: 1em;
+  margin: 0.25em;
+  stroke: rgb(51, 103, 214);
+  width: 1em;
+}
+.bookmark__rating svg.active {
+  fill: rgb(51, 103, 214);
 }
 .bookmark__expand {
   background: hsl(221, 66.5%, 78%);
@@ -65,27 +97,7 @@ h1 {
 }
 
 @media screen and (min-width: 600px) {
-  .bookmark {
-    display: grid;
-    grid-template-columns: 1fr auto;
-    grid-template-rows: auto;
-    grid-template-areas: 
-      "title rating"
-      "details details"
-      "collapse collapse";
-  }
-  .bookmark__title {
-    grid-area: title;
-  }
-  .bookmark__rating {
-    grid-area: rating;
-  }
-  .bookmark__details {
-    grid-area: details;
-  }
-  .bookmark__expand {
-    grid-area: collapse;
-  }
+
 }
 
 /* Bookmarks form */

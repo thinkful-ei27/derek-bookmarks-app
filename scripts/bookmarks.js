@@ -16,11 +16,20 @@ const bookmarks = (function(){
     return newData;
   }
 
+  function generateStars(item) {
+    let string = '';
+    for (let i = 1; i <= 5; i++) {
+      const star = `<svg class="${i <= item.rating ? 'active': ''}" viewBox="0 0 512 512"><path stroke-width="10" d="M512 198.525l-176.89-25.704-79.11-160.291-79.108 160.291-176.892 25.704 128 124.769-30.216 176.176 158.216-83.179 158.216 83.179-30.217-176.176 128.001-124.769z"></path></svg>`;
+      string += star;
+    }
+    return string;
+  }
+
   function generateListElement(item) {
     const listElement = `
       <li class="bookmark js-bookmark" data-item-id="${item.id}" aria-label="bookmark">
         <div class="bookmark__title" aria-label="bookmark title">${item.title}</div>
-        <div class="bookmark__rating">Rating: ${item.rating ? item.rating : 'No rating'}</div>
+        <div class="bookmark__rating" aria-label="Rating: ${item.rating ? item.rating : 'No rating'}">${generateStars(item)}</div>
         <section class="bookmark__details" ${!(item.expanded) ? 'hidden' : ''}>
           <a href="${item.url}">${item.url}</a>
           <p>${item.desc ? item.desc : 'There\'s no description for this item yet.'}</p>
