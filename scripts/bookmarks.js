@@ -23,8 +23,8 @@ const bookmarks = (function(){
     return listElement ;
   }
 
-  function getItemIdFromElement(item) {
-    return $(item)
+  function getItemIdFromElement(element) {
+    return $(element)
       .closest('.js-bookmark')
       .data('item-id');
   }
@@ -139,6 +139,16 @@ const bookmarks = (function(){
     });
   }
 
+  function handleDeleteBookmarkButtonClick() {
+    $('.bookmark-app').on('click', '.bookmark__delete', () => {
+      const id = getItemIdFromElement(event.target);
+      api.deleteItem(id, response => {
+        store.deleteItem(id);
+        render();
+      });
+    });
+  }
+
   function handleCancelButtonClick() {
     $('.bookmark-app').on('click', '.js-bookmark-form-cancel', () => {
       store.clearAddingAndEditing();
@@ -170,6 +180,7 @@ const bookmarks = (function(){
   function bindEventListeners() {
     handleAddBookmarkButtonClick();
     handleEditBookmarkButtonClick();
+    handleDeleteBookmarkButtonClick();
     handleCancelButtonClick();
     handleFormSubmit();
     handledClickToExpand();

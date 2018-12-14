@@ -39,6 +39,11 @@ const store = (function(){
     return newItem;
   }
 
+  function deleteItem(id) {
+    this.items = this.items.filter(item => item.id !== id);
+    return this.items;
+  }
+
   
   return {
     items,
@@ -51,6 +56,7 @@ const store = (function(){
     toggleEditing,
     clearAddingAndEditing,
     toggleExpanding,
-    addItem
+    addItem,
+    deleteItem
   };
 }());

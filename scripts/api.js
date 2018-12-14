@@ -24,8 +24,19 @@ const api = (function(){
     });
   }
 
+  function deleteItem(id, callback) {
+    $.ajax({
+      url: `${BASE_URL}/bookmarks/${id}`,
+      method: 'DELETE',
+      contentType: 'application/json',
+      success: callback,
+      error: errorCallback
+    });
+  }
+
   return {
     getItems,
-    createItem
+    createItem,
+    deleteItem
   };
 }());
