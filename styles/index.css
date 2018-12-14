@@ -5,3 +5,7 @@ h1 {
 .bookmark__expand {
   cursor: pointer;
 }
+
+.error-message {
+  color: red;
+}

@@ -34,6 +34,16 @@ const store = (function(){
     return item.expanded;
   }
 
+  function addError(errorMessage) {
+    this.error = errorMessage;
+    return this.error;
+  }
+
+  function clearError() {
+    this.error = null;
+    return this.error;
+  }
+
   function addItem(item) {
     const newItem = this.items.push(item);
     return newItem;
@@ -56,6 +66,8 @@ const store = (function(){
     toggleEditing,
     clearAddingAndEditing,
     toggleExpanding,
+    addError,
+    clearError,
     addItem,
     deleteItem
   };

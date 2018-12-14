@@ -74,17 +74,17 @@ const bookmarks = (function(){
     let string = `
       <h2>${store.editing ? 'Edit' : 'Add'} Bookmark</h2>
       <p>Required fields marked with a *</p>
-      <p class="error-message" ${!(store.error) ? 'hidden' : ''}>ERROR: Error message</p>
+      <p class="error-message" ${!(store.error) ? 'hidden' : ''}>ERROR: ${store.error}</p>
       <form action="" class="bookmark-form">
         <fieldset class="bookmark__fields">
           <label for="title">Title<span class="required">*</span></label>
-          <input type="text" name="title" id="title" required placeholder="${placeholders.title}">
+          <input type="text" name="title" id="title" placeholder="${placeholders.title}">
           <label for="url">URL<span class="required">*</span></label>
-          <input type="url" name="url" id="url" required placeholder="${placeholders.url}">
+          <input type="url" name="url" id="url" placeholder="${placeholders.url}">
           <label for="description">Description</label>
           <textarea name="desc" id="description" cols="30" rows="10">${placeholders.desc}</textarea>
           <label for="rating">Rating</label>
-          <input type="number" name="rating" id="rating" min="1" max="5" placeholder="${placeholders.rating}">
+          <input type="number" name="rating" id="rating" placeholder="${placeholders.rating}">
         </fieldset>
         <fieldset class="bookmark__controls">
           <button type="reset" class="js-bookmark-form-cancel">Cancel</button>
