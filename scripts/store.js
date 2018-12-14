@@ -18,8 +18,8 @@ const store = (function(){
     return this.adding;
   }
 
-  function toggleEditing() {
-    this.editing = 1;
+  function toggleEditing(id) {
+    this.editing = id;
     return this.editing;
   }
 
@@ -49,6 +49,12 @@ const store = (function(){
     return newItem;
   }
 
+  function updateItem(id, newData) {
+    const item = this.findById(id);
+    Object.assign(item, newData);
+    return item;
+  }
+
   function deleteItem(id) {
     this.items = this.items.filter(item => item.id !== id);
     return this.items;
@@ -74,6 +80,7 @@ const store = (function(){
     addError,
     clearError,
     addItem,
+    updateItem,
     deleteItem,
     setMinRating
   };

@@ -4,6 +4,18 @@
 
 // eslint-disable-next-line no-unused-vars
 const bookmarks = (function(){
+  function extractNewData(formData) {
+    const obj = JSON.parse(formData);
+    const existingItem = store.findById(obj.id);
+    const newData = {};
+    for (const key in obj) {
+      if (obj[key] !== existingItem[key]) {
+        newData[key] = obj[key];
+      }
+    }
+    return newData;
+  }
+
   function generateListElement(item) {
     const listElement = `
       <li class="bookmark js-bookmark" data-item-id="${item.id}">
@@ -63,8 +75,13 @@ const bookmarks = (function(){
       rating: ''
     };
     if (store.editing) {
-      const item = store.items[store.editing];
+      const item = store.findById(store.editing);
       Object.assign(placeholders, item);
+      for (const key in placeholders) {
+        if (placeholders[key] === null) {
+          placeholders[key] = '';
+        }
+      }
     }
     return placeholders;
   }
@@ -78,17 +95,18 @@ const bookmarks = (function(){
       <form action="" class="bookmark-form">
         <fieldset class="bookmark__fields">
           <label for="title">Title<span class="required">*</span></label>
-          <input type="text" name="title" id="title" placeholder="${placeholders.title}">
+          <input type="text" name="title" id="title" value="${placeholders.title}">
           <label for="url">URL<span class="required">*</span></label>
-          <input type="url" name="url" id="url" placeholder="${placeholders.url}">
+          <input type="url" name="url" id="url" value="${placeholders.url}" placeholder="http(s)://domainname.com">
           <label for="description">Description</label>
           <textarea name="desc" id="description" cols="30" rows="10">${placeholders.desc}</textarea>
           <label for="rating">Rating</label>
-          <input type="number" name="rating" id="rating" placeholder="${placeholders.rating}">
+          <input type="number" name="rating" id="rating" value="${placeholders.rating}">
         </fieldset>
         <fieldset class="bookmark__controls">
           <button type="reset" class="js-bookmark-form-cancel">Cancel</button>
           <button type="submit">${store.editing ? 'Apply Changes' : 'Add Bookmark'}</button>
+          ${store.editing ? '<input type="hidden" id="bookmarkID" name="id" value="' + placeholders.id + '">' : ''}
         </fieldset>
       </form>
     `;
@@ -148,7 +166,8 @@ const bookmarks = (function(){
 
   function handleEditBookmarkButtonClick() {
     $('.bookmark-app').on('click', '.bookmark__edit', () => {
-      store.toggleEditing();
+      const id = getItemIdFromElement(event.target);
+      store.toggleEditing(id);
       render();
     });
   }
@@ -173,12 +192,23 @@ const bookmarks = (function(){
   function handleFormSubmit() {
     $('.bookmark-app').on('submit', '.bookmark-form', () => {
       event.preventDefault();
+      const id = $('#bookmarkID').val();
       const formData = $(event.target).serializeJson();
-      api.createItem(formData, (item) => {
-        store.addItem(item);
-        store.clearAddingAndEditing();
-        render();
-      });
+      if (store.editing) {
+        const newData = extractNewData(formData);
+        api.updateItem(newData, id, () => {
+          store.updateItem(id, newData);
+          store.clearAddingAndEditing();
+          render();
+        });
+      }
+      else {
+        api.createItem(formData, (item) => {
+          store.addItem(item);
+          store.clearAddingAndEditing();
+          render();
+        });
+      }
     });
   }
 
