@@ -20,16 +20,16 @@ const bookmarks = (function(){
     const listElement = `
       <li class="bookmark js-bookmark" data-item-id="${item.id}">
         <div class="bookmark__title">${item.title}</div>
-        <div>Rating: ${item.rating ? item.rating : 'No rating'}</div>
+        <div class="bookmark__rating">Rating: ${item.rating ? item.rating : 'No rating'}</div>
         <section class="bookmark__details" ${!(item.expanded) ? 'hidden' : ''}>
-          <a href="${item.url}">Visit ${item.url}</a>
+          <a href="${item.url}">${item.url}</a>
           <p>${item.desc ? item.desc : 'There\'s no description for this item yet.'}</p>
           <div class="bookmark__buttons">
             <button class="bookmark__edit">Edit Bookmark</button>
             <button class="bookmark__delete">Delete Bookmark</button>
           </div>
         </section>
-        <p class="bookmark__expand">click to ${item.expanded ? 'collapse' : 'expand'}</p>
+        <p class="bookmark__expand">${item.expanded ? 'collapse' : 'expand'}</p>
       </li>
     `;
     return listElement ;
@@ -93,7 +93,7 @@ const bookmarks = (function(){
       <p>Required fields marked with a *</p>
       <p class="error-message" ${!(store.error) ? 'hidden' : ''}>ERROR: ${store.error}</p>
       <form action="" class="bookmark-form">
-        <fieldset class="bookmark__fields">
+        <div class="bookmark__fields">
           <label for="title">Title<span class="required">*</span></label>
           <input type="text" name="title" id="title" value="${placeholders.title}">
           <label for="url">URL<span class="required">*</span></label>
@@ -102,12 +102,12 @@ const bookmarks = (function(){
           <textarea name="desc" id="description" cols="30" rows="10">${placeholders.desc}</textarea>
           <label for="rating">Rating</label>
           <input type="number" name="rating" id="rating" value="${placeholders.rating}">
-        </fieldset>
-        <fieldset class="bookmark__controls">
+        </div>
+        <div class="bookmark__controls">
           <button type="reset" class="js-bookmark-form-cancel">Cancel</button>
           <button type="submit">${store.editing ? 'Apply Changes' : 'Add Bookmark'}</button>
           ${store.editing ? '<input type="hidden" id="bookmarkID" name="id" value="' + placeholders.id + '">' : ''}
-        </fieldset>
+        </div>
       </form>
     `;
     return string;

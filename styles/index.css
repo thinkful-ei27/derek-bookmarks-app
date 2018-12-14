@@ -1,11 +1,125 @@
+/* App-wide styles */
+html {
+  box-sizing: border-box;
+}
+body {
+  font-family: 'Roboto', sans-serif;
+}
+*, *::before, *::after {
+  box-sizing: inherit;
+}
+a {
+  color: rgb(51, 103, 214);
+}
 h1 {
   text-align: center;
 }
 
-.bookmark__expand {
-  cursor: pointer;
+@media screen and (min-width: 600px) {
+  .bookmark-app {
+    margin: 0 auto;
+    max-width: 60em;
+  }
 }
 
+/* Toolbar */
+.toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+}
+
+/* Bookmarks list */
+.bookmarks__list {
+  list-style: none;
+  margin: 1em 0;
+  padding: 0;
+}
+.bookmark {
+  border: 1px solid rgb(51, 103, 214);
+  border-radius: 0.5em;
+  overflow: hidden;
+  margin: 0 0 1em;
+  padding: 1em;
+}
+.bookmark__title {
+  font-weight: bold;
+  margin-bottom: 1em;
+}
+.bookmark__expand {
+  background: hsl(221, 66.5%, 78%);
+  color: hsl(221, 66.5%, 26%);
+  cursor: pointer;
+  margin: 0 -1em;
+  padding: 1em;
+  position: relative;
+  text-align: center;
+  top: 1em;
+}
+.bookmark__buttons {
+  text-align: right;
+}
+
+@media screen and (min-width: 600px) {
+  .bookmark {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    grid-template-rows: auto;
+    grid-template-areas: 
+      "title rating"
+      "details details"
+      "collapse collapse";
+  }
+  .bookmark__title {
+    grid-area: title;
+  }
+  .bookmark__rating {
+    grid-area: rating;
+  }
+  .bookmark__details {
+    grid-area: details;
+  }
+  .bookmark__expand {
+    grid-area: collapse;
+  }
+}
+
+/* Bookmarks form */
+input, textarea, select, button {
+  border: 1px solid rgb(51, 103, 214);
+  border-radius: 0.5em;
+  margin: 1em 0;
+}
+button, select {
+  display: inline-block;
+  padding: 0.5em 1em;
+}
+button {
+  background-color: rgb(51, 103, 214);
+  color: white;
+}
+input, textarea {
+  padding: 1em 2em;
+  width: 100%;
+}
+textarea {
+  resize: none;
+}
 .error-message {
   color: red;
+}
+
+@media screen and (min-width: 600px) {
+  .bookmark__fields {
+    display: grid;
+    grid-gap: 1em;
+    grid-template-columns: auto 1fr;
+  }
+  input, textarea {
+    margin: 0;
+  }
+  label {
+    padding: 1em 0;
+  }
+
 }
