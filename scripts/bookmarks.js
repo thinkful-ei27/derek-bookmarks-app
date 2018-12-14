@@ -94,6 +94,25 @@ const bookmarks = (function(){
     `;
     return string;
   }
+
+  function generateMinRatingOptions() {
+    const currentMinRating = store.minRating;
+    const optionElementArr = [];
+    function generateOptionLabel(num) {
+      if (num === 0) {
+        return 'No minimum';
+      } else if (num === 1) {
+        return num + ' star';
+      } else {
+        return num + ' stars';
+      }
+    }
+    for (let i = 0; i <= 5; i++) {
+      optionElementArr.push(`<option value="${i}" ${i ===  currentMinRating ? 'selected' : ''}>${generateOptionLabel(i)}</option>`);
+    }
+    const optionsString = optionElementArr.join('');
+    return optionsString;
+  }
   
   function generateBookmarksString() {
     const toolbar = `
@@ -101,12 +120,7 @@ const bookmarks = (function(){
         <div class="min-rating">
           <label for="minRating">Minimum Rating:</label>
           <select name="minRating" id="minRating">
-            <option value="0">No minimum</option>
-            <option value="1">1 star</option>
-            <option value="2">2 stars</option>
-            <option value="3">3 stars</option>
-            <option value="4">4 stars</option>
-            <option value="5">5 stars</option>
+            ${generateMinRatingOptions()}
           </select>
         </div>
         <button class="add-bookmark">Add Bookmark</button>
@@ -177,6 +191,14 @@ const bookmarks = (function(){
     });
   }
 
+  function handleMinRatingDropdownChange() {
+    $('.bookmark-app').on('change', '#minRating', () => {
+      const val = $(event.target).val();
+      store.setMinRating(val);
+      render();
+    });
+  }
+
   function bindEventListeners() {
     handleAddBookmarkButtonClick();
     handleEditBookmarkButtonClick();
@@ -184,6 +206,7 @@ const bookmarks = (function(){
     handleCancelButtonClick();
     handleFormSubmit();
     handledClickToExpand();
+    handleMinRatingDropdownChange();
   }
 
   return {

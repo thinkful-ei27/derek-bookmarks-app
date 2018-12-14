@@ -54,6 +54,11 @@ const store = (function(){
     return this.items;
   }
 
+  function setMinRating(rating) {
+    this.minRating = Number(rating);
+    return this.minRating;
+  }
+
   
   return {
     items,
@@ -69,6 +74,7 @@ const store = (function(){
     addError,
     clearError,
     addItem,
-    deleteItem
+    deleteItem,
+    setMinRating
   };
 }());
