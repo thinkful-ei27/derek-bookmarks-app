@@ -48,8 +48,12 @@ h1 {
 }
 .bookmark__expand {
   background: hsl(221, 66.5%, 78%);
+  border: none;
+  border-radius: 0;
   color: hsl(221, 66.5%, 26%);
   cursor: pointer;
+  display: block;
+  font-size: 1rem;
   margin: 0 -1em;
   padding: 1em;
   position: relative;

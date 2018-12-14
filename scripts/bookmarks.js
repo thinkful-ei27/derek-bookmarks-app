@@ -18,8 +18,8 @@ const bookmarks = (function(){
 
   function generateListElement(item) {
     const listElement = `
-      <li class="bookmark js-bookmark" data-item-id="${item.id}">
-        <div class="bookmark__title">${item.title}</div>
+      <li class="bookmark js-bookmark" data-item-id="${item.id}" aria-label="bookmark">
+        <div class="bookmark__title" aria-label="bookmark title">${item.title}</div>
         <div class="bookmark__rating">Rating: ${item.rating ? item.rating : 'No rating'}</div>
         <section class="bookmark__details" ${!(item.expanded) ? 'hidden' : ''}>
           <a href="${item.url}">${item.url}</a>
@@ -29,7 +29,7 @@ const bookmarks = (function(){
             <button class="bookmark__delete">Delete Bookmark</button>
           </div>
         </section>
-        <p class="bookmark__expand">${item.expanded ? 'collapse' : 'expand'}</p>
+        <button class="bookmark__expand">${item.expanded ? 'collapse' : 'expand'}</button>
       </li>
     `;
     return listElement ;
